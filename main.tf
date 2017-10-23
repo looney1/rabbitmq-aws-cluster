@@ -144,7 +144,7 @@ resource "aws_security_group" "rabbitmq_nodes" {
 
   tags {
     Name = "rabbitmq nodes"
-    client="${var.client}"
+    client = "${var.client}"
   }
 }
 
@@ -173,9 +173,14 @@ resource "aws_autoscaling_group" "rabbitmq" {
   tag {
     key = "Name"
     value = "rabbitmq"
-    client="${var.client}"
+    
     propagate_at_launch = true
   }
+  tag {
+    key = "client"
+    value = "${var.client}"
+    propagate_at_launch = true
+    }
 }
 
 resource "aws_elb" "elb" {
