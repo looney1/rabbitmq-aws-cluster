@@ -26,7 +26,7 @@ data "template_file" "cloud-init" {
   template = "${file("${path.module}/cloud-init.yaml")}"
 
   vars {
-    sync_node_count = 3
+    sync_node_count = 2
     region            = "${var.region}"
     secret_cookie     = "${var.rabbitmq_secret_cookie}"
     admin_password    = "${var.admin_password}"
