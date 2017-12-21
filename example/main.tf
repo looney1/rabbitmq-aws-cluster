@@ -19,6 +19,7 @@ variable "rabbitmq_admin_password" {}
 variable "rabbitmq_rabbit_password" {}
 variable "rabbitmq_secret_cookie" {}
 variable "rabbitmq_node_count" {}
+variable "client" {}
 
 provider "aws" {
   region     = "${var.region}"
@@ -27,7 +28,7 @@ provider "aws" {
 }
 
 module "rabbitmq" {
-  source = "github.com/looney1/rabbitmq-cluster"
+  source = "github.com/looney1/rabbitmq-aws-cluster"
   region = "${var.region}"
   vpc_id = "${var.vpc_id}"
   ssh_key_name = "${var.ssh_key_name}"
@@ -39,4 +40,6 @@ module "rabbitmq" {
   rabbit_password = "${var.rabbitmq_rabbit_password}"
   rabbitmq_secret_cookie = "${var.rabbitmq_secret_cookie}"
   count = "${var.rabbitmq_node_count}"
+  client = "${var.client}"
+
 }

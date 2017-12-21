@@ -14,12 +14,12 @@ write_files:
 
         export AWS_DEFAULT_REGION='${region}'
 
-        DNSES=$(aws ec2 describe-instances --filters "Name=tag:aws:autoscaling:groupName,Values=rabbitmq" "Name=instance-state-name,Values=running" | jq ".Reservations[].Instances[].PrivateDnsName" | xargs)
+        DNSES=$(aws ec2 describe-instances --filters "Name=tag:aws:autoscaling:groupName,Values=rabbitmq-${client}" "Name=instance-state-name,Values=running" | jq ".Reservations[].Instances[].PrivateDnsName" | xargs)
 
         HOSTNAMES=()
         for dns in $DNSES; do
             hostname=($${dns})
-            if [ "$hostname" != "$${HOSTNAME}.${region}.compute.internal" ]; then
+            if [ "$hostname" != "$${HOSTNAME}.$${AWS_DEFAULT_REGION^^}.COMPUTE.INTERNAL" ]; then
               HOSTNAMES+="$${hostname^^} "
             fi
         done
